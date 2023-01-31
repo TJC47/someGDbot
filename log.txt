@@ -1,0 +1,2 @@
+#This file will log all chat messages(In case you need them)
+TJC472: hello there
