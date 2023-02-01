@@ -84,7 +84,7 @@ while True:
                             if comment2["username"].lower in ops:
                                 say("@"+comment2["username"]+" you have op but this command doesn't exist /help for a list of commands")
                             else:
-                                say("@"+comment2["username"]+" im sorry but you don't have op /help for a list of commands")
+                                pass#say("@"+comment2["username"]+" im sorry but you don't have op /help for a list of commands") avoids spamming chat if possible making a cooldown for this message (see todo list) would be the right way 
                         for bw in bannedwords:
                             if bw in comment1.lower() and not comment2["username"]=="TJC472":
                                 say("@"+comment2["username"]+" You have been banned from TJC472's bot. Reason: '"+comment1+"' /banlist!!!")
