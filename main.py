@@ -1,15 +1,16 @@
-print("Starting")
 import requests
 import time
 import json
 import random
-print("Loaded libraries!")
+
 ignored =["autoworks","fursona"]
 ops = ["tjc472"]
 bannedwords= ["deez nuts","bi*ch","b*tch","ban me","s*x","im a furry","uwu","balls","sex","sus","nya"]
+
 f = open("config.json", "r")
 jason = json.loads(f.read())
 f.close()
+
 ops = jason["ops"]
 ignored = jason["banned"]
 usrname = jason["username"]
@@ -17,7 +18,9 @@ accID = jason["accountid"]
 passwrd = jason["password"]
 levelID = jason["levelID"]
 ids = []
-print("Loaded CONFIG!")
+
+print("Configurated ")
+
 while True:
     try:
         print("Trying to Connect")
@@ -28,7 +31,7 @@ while True:
             print(text)
         url = 'http://localhost/postComment'
         while True:
-            comments=requests.get("http://localhost/api/comments/"+levelID+"?count=11")
+            comments=requests.get("http://localhost/api/comments/"+levelID+"?count=3") # annoying issue, please dont make this very high.
             comments=json.loads((comments.text))
             jason["banned"] = ignored
             jason["ops"] = ops
@@ -86,6 +89,6 @@ while True:
                             if bw in comment1.lower() and not comment2["username"]=="TJC472":
                                 say("@"+comment2["username"]+" You have been banned from TJC472's bot. Reason: '"+comment1+"' /banlist!!!")
                                 ignored.append(comment2["username"].lower())
-            time.sleep(5)
+            time.sleep(2) # Make the bot check every 2 seconds instead, You shouldnt be ratelimited.
     except:
         pass
