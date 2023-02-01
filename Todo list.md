@@ -1,4 +1,4 @@
-#TODOS
+# TODO LIST
 
 Add player command cooldown(1min)
 
