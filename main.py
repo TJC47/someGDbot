@@ -38,7 +38,7 @@ while True:
             fi = open("config.json","w")
             fi.write(str(jason).replace("'",'"'))
             fi.close()
-            for comment in range(0,10):
+            for comment in range(0,3): #adjust this or it will crash
                 comment1=dict(comments[comment])["content"]
                 comment2=dict(comments[comment])
                 #print(comment1)
