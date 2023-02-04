@@ -23,7 +23,7 @@ print("Configurated ")
 
 while True:
     try:
-        print("Trying to Connect")
+        print("Connecting...")
         ids = []
         url = 'http://localhost/postComment'
         def say(text):
@@ -51,9 +51,9 @@ while True:
                         file.close()
                         if "/help" in comment1.lower() and not comment2["username"]==usrname:
                             if comment2["username"].lower in ops:
-                                say("@"+comment2["username"]+" OPCommands: /furry /cool /yesorno /say /op /oplist /pen_s /banlist /ban /help")
+                                say("@"+comment2["username"]+" OPCommands: /furry /cool /yesorno /say /op /oplist /pen_s /banlist /ban /stats /help")
                             else:
-                                say("@"+comment2["username"]+" Commands: /furry /cool /yesorno /say /oplist /banlist /help")
+                                say("@"+comment2["username"]+" Commands: /furry /cool /yesorno /say /oplist /banlist /stats /help")
                             print("command /help")
                         if comment2["username"].lower() in ops and not comment2["username"]==usrname:
                             if "/op" in comment1:
@@ -73,9 +73,15 @@ while True:
                         elif "/yesorno" in comment1.lower() and not comment2["username"]==usrname:
                             say("@"+comment2["username"]+" "+random.choice(["yes","no"]))
                         elif "/ai" in comment1 and not comment2["username"]==usrname:
-                            say("@"+comment2["username"]+" "+random.choice(["yes","no","ha","totally not randimized","stop spamming!","what da","uwu","owo"]))
+                            resp = requests.get("http://api.brainshop.ai/get?bid=172425&key=f1KfI93QOBQaqZQb&uid=0&msg="+comment1.split(' ', 1)[1], headers={'Accept': 'application/json'})
+                            jsonResp = json.loads(resp.text)
+                            response = jsonResp["cnt"]
+                            say("@"+comment2["username"]+" "+response)
                         elif "/say" in comment1 and not comment2["username"]==usrname:
                             say("@"+comment2["username"]+" "+comment1.split(' ', 1)[1])
+                        elif "/stats" in comment1 and not comment2["username"]==usrname:
+                            stats = json.loads(requests.get("http://localhost/api/profile/" + comment2["username"]).text)
+                            say("@"+comment2["username"]+ f"  has {stats['stars']} stars, {stats['diamonds']} diamonds, {stats['coins']} coins, {stats['userCoins']} user coins, {stats['demons']} demons beaten and {stats['cp']} creator points.")
                         elif "/oplist" in comment1 and not comment2["username"]==usrname:
                             say("@"+comment2["username"]+" OPS:"+str(ops))
                         elif "gg" in comment1.lower() and not comment2["username"]==usrname:
@@ -87,8 +93,14 @@ while True:
                                 pass#say("@"+comment2["username"]+" im sorry but you don't have op /help for a list of commands") avoids spamming chat if possible making a cooldown for this message (see todo list) would be the right way 
                         for bw in bannedwords:
                             if bw in comment1.lower() and not comment2["username"]=="TJC472":
-                                say("@"+comment2["username"]+" You have been banned from TJC472's bot. Reason: '"+comment1+"' /banlist!!!")
-                                ignored.append(comment2["username"].lower())
+                                #say("@"+comment2["username"]+" You have been banned from TJC472's bot. Reason: '"+comment1+"' /banlist!!!")
+                                #ignored.append(comment2["username"].lower())
+                                pass
             time.sleep(2) # Make the bot check every 2 seconds instead, You shouldnt be ratelimited.
     except:
-        pass
+        try:
+            print("Press Crtl + C in 5 seconds to exit")
+            time.sleep(5)
+        except:
+            print("Exiting...")
+            break
