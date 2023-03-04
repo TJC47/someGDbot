@@ -3,24 +3,46 @@ import time
 import json
 import random
 
-ignored =["autoworks","fursona"]
+ignored =[]
 ops = ["tjc472"]
-bannedwords= ["deez nuts","bi*ch","b*tch","ban me","s*x","im a furry","uwu","balls","sex","sus","nya"]
-
+#Loading config
 f = open("config.json", "r")
 jason = json.loads(f.read())
 f.close()
-
+debugon = "false"
 ops = jason["ops"]
 ignored = jason["banned"]
 usrname = jason["username"]
 accID = jason["accountid"]
 passwrd = jason["password"]
 levelID = jason["levelID"]
+commentfetch = 3
+debugon = jason["debug"]
 ids = []
 
 print("Configurated ")
-
+def debugmsg(text):
+    print(f"[Debug] {text}")
+if debugon.lower() == "true":
+    debugmsg("Debug mode enabled. Press ctrl + c for more options.")
+def debug():
+    global debugon
+    debugshon = True
+    print("\n[Debug] type 'return' to return to normal program function 'help' for help.")
+    while debugshon:
+        debugsh = input("[Debug] $ ").lower()
+        if debugsh == "return":
+            debugshon = False
+        elif debugsh == "help":
+            debugmsg("return, debug")
+        elif debugsh == "debug":
+            inp = input("[Debug] Turn debug mode on/off > ").lower()
+            if inp == "on":
+                debugon = "true"
+            elif inp == "off":
+                debugon = "false"
+            else:
+                debugmsg("Not a valid option! exiting function!")
 while True:
     try:
         print("Connecting...")
@@ -41,7 +63,13 @@ while True:
             for comment in range(0,3): #adjust this or it will crash
                 comment1=dict(comments[comment])["content"]
                 comment2=dict(comments[comment])
-                #print(comment1)
+                #Debug testing
+                if debugon.lower() == "true":
+                    try:
+                        comment1 = input("[Debug] Message > ")
+                        comment2["ID"] = random.randint(1,100000)
+                    except:
+                        debug()
                 if not comment2["ID"] in ids:
                     if not comment2["username"].lower() in ignored:
                         ids.append(comment2["ID"])
@@ -49,15 +77,16 @@ while True:
                         file = open("log.txt", "a")
                         file.write("\n"+comment2["username"]+": "+comment1)
                         file.close()
+                        arguments = comment1.split(' ', 1)
                         if "/help" in comment1.lower() and not comment2["username"]==usrname:
                             if comment2["username"].lower in ops:
-                                say("@"+comment2["username"]+" OPCommands: /furry /cool /yesorno /say /op /oplist /pen_s /banlist /ban /stats /help")
+                                say("@"+comment2["username"]+" OPCommands: /furry /ai /cool /yesorno /say /op /oplist /pen_s /banlist /ban /stats /help")
                             else:
-                                say("@"+comment2["username"]+" Commands: /furry /cool /yesorno /say /oplist /banlist /stats /help")
+                                say("@"+comment2["username"]+" Commands: /furry /ai /cool /yesorno /say /oplist /banlist /stats /help")
                             print("command /help")
                         if comment2["username"].lower() in ops and not comment2["username"]==usrname:
                             if "/op" in comment1:
-                                say("["+comment2["username"]+" opped"+comment1.split(' ', 1)[1]+"]")
+                                say("["+comment2["username"]+" opped "+comment1.split(' ', 1)[1]+"]")
                                 ops.append(comment1.split(' ', 1)[1].lower())
                             if "/ban" in comment1:
                                 say("Banned "+"@"+comment1.split(' ', 1)[1])
@@ -91,16 +120,17 @@ while True:
                                 say("@"+comment2["username"]+" you have op but this command doesn't exist /help for a list of commands")
                             else:
                                 pass#say("@"+comment2["username"]+" im sorry but you don't have op /help for a list of commands") avoids spamming chat if possible making a cooldown for this message (see todo list) would be the right way 
-                        for bw in bannedwords:
-                            if bw in comment1.lower() and not comment2["username"]=="TJC472":
-                                #say("@"+comment2["username"]+" You have been banned from TJC472's bot. Reason: '"+comment1+"' /banlist!!!")
-                                #ignored.append(comment2["username"].lower())
-                                pass
-            time.sleep(2) # Make the bot check every 2 seconds instead, You shouldnt be ratelimited.
+            if not debugon.lower() ==  "true":
+                time.sleep(2) # Make the bot check every 2 seconds instead, You shouldnt be ratelimited.
     except:
         try:
-            print("Press Crtl + C in 5 seconds to exit")
+            print("Press Ctrl + C in 5 seconds for menu")
             time.sleep(5)
         except:
-            print("Exiting...")
-            break
+            sel = input("[Menu] 'exit' to exit, 'shell' for debug shell > ").lower()
+            if sel == "exit":
+                break
+            elif sel == "shell":
+                debug()
+            else:
+                print("[Menu] Invalid selection! Returning!")
