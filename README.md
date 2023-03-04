@@ -17,6 +17,7 @@ Be sure to start GDBrowser on port 80 for the safest experience.
 
 `levelID` the id of the level for the bot to scan and comment on
 
+`debug` don't change unless you know, what you are doing
 
 # Your command ideas
 If you want your own commands in this bot, feel free to open a pull request.
