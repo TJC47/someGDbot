@@ -1,8 +1,10 @@
+# WARNING
+
+**THIS IS A GEOMETRY DASH BOT. USING THIS ON YOUR MAIN ACCOUNT COULD GET YOU PERMANENTLY COMMENT BANNED OR DISABLED. PLEASE USE A VPN AND CREATE A NEW ACCOUNT TO AVOID YOUR ACCOUNT AND IP GETTING BANNED**
+
 # How to set up
 This program uses GDColons GDBrowser api.
 Be sure to start GDBrowser on port 80 for the safest experience.
-
-**Remember that this could get you banned.**
 
 # Configuration
 `banned` list of GD account names, that can't use commands
