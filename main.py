@@ -1,8 +1,9 @@
+import botgui
 import requests
 import time
 import json
 import random
-
+from threading import Thread
 ignored =[]
 ops = ["tjc472"]
 #Loading config
@@ -19,6 +20,8 @@ levelID = jason["levelID"]
 commentfetch = 3
 debugon = jason["debug"]
 ids = []
+alreadyrun = False
+lastsaid = ""
 
 print("Configurated ")
 def debugmsg(text):
@@ -43,16 +46,18 @@ def debug():
                 debugon = "false"
             else:
                 debugmsg("Not a valid option! exiting function!")
-while True:
+while botgui.running:
     try:
         print("Connecting...")
         ids = []
         url = 'http://localhost/postComment'
         def say(text):
+            global lastsaid
             x = requests.post(url, data={"username":usrname,"accountID":accID,"password":passwrd,"levelID":levelID,"percent":"0","comment":text})
             print(text)
+            lastsaid = text
         url = 'http://localhost/postComment'
-        while True:
+        while botgui.running:
             comments=requests.get("http://localhost/api/comments/"+levelID+"?count=3") # annoying issue, please dont make this very high.
             comments=json.loads((comments.text))
             jason["banned"] = ignored
@@ -100,7 +105,9 @@ while True:
                         elif "/cool" in comment1 and not comment2["username"]==usrname:
                             say("@"+comment2["username"]+" you are "+str(random.randint(0,100))+"% cool.")
                         elif "/yesorno" in comment1.lower() and not comment2["username"]==usrname:
+                            random.seed(comment1.lower())
                             say("@"+comment2["username"]+" "+random.choice(["yes","no"]))
+                            random.seed()
                         elif "/ai" in comment1 and not comment2["username"]==usrname:
                             resp = requests.get("http://api.brainshop.ai/get?bid=172425&key=f1KfI93QOBQaqZQb&uid=0&msg="+comment1.split(' ', 1)[1], headers={'Accept': 'application/json'})
                             jsonResp = json.loads(resp.text)
@@ -120,6 +127,12 @@ while True:
                                 say("@"+comment2["username"]+" you have op but this command doesn't exist /help for a list of commands")
                             else:
                                 pass#say("@"+comment2["username"]+" im sorry but you don't have op /help for a list of commands") avoids spamming chat if possible making a cooldown for this message (see todo list) would be the right way 
+                        botgui.comment = comment2["username"]+ ": " + comment1
+                        botgui.lastsaid = lastsaid
+                        if alreadyrun == False:
+                            alreadyrun = True
+                            guiwin=Thread(target=botgui.start)
+                            guiwin.start()
             if not debugon.lower() ==  "true":
                 time.sleep(2) # Make the bot check every 2 seconds instead, You shouldnt be ratelimited.
     except:
@@ -134,3 +147,12 @@ while True:
                 debug()
             else:
                 print("[Menu] Invalid selection! Returning!")
+botgui.running = False
+print("Saving New Config...")
+try:
+    fi = open("config.json","w")
+    fi.write(str(jason).replace("'",'"'))
+    fi.close()
+    print("Success!")
+except:
+    print("Failed!")
