@@ -1,7 +1,7 @@
 # TODO LIST
 
-Add player command cooldown(1min)
+- [ ] Add player command cooldown(1min)
 
-Add `/unban` command
+- [ ] Add `/unban` command
 
-Add `/deop` comand
+- [ ] Add `/deop` comand
