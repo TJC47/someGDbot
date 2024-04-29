@@ -51,15 +51,15 @@ while botgui.running:
     try:
         print("Connecting...")
         ids = []
-        url = 'http://localhost/postComment'
+        url = 'http://localhost:81/postComment'
         def say(text):
             global lastsaid
             x = requests.post(url, data={"username":usrname,"accountID":accID,"password":passwrd,"levelID":levelID,"percent":"0","comment":text})
             print(text)
             lastsaid = text
-        url = 'http://localhost/postComment'
+        url = 'http://localhost:81/postComment'
         while botgui.running:
-            comments=requests.get("http://localhost/api/comments/"+levelID+"?count="+str(commentfetch)) # annoying issue, please dont make this very high.
+            comments=requests.get("http://localhost:81/api/comments/"+levelID+"?count="+str(commentfetch)) # annoying issue, please dont make this very high.
             comments=json.loads((comments.text))
             jason["banned"] = ignored
             jason["ops"] = ops
@@ -121,14 +121,14 @@ while botgui.running:
                             response = jsonResp["cnt"]
                             say("@"+comment2["username"]+" "+response)
                         elif comment1.lower().startswith("/say") and not comment2["username"]==usrname:
-                            say("@"+comment2["username"]+" "+comment1.split(' ', 1)[1])
+                            say(comment1.split(' ', 1)[1])
                         elif comment1.lower().startswith("/stats") and not comment2["username"]==usrname:
                             stats = json.loads(requests.get("http://localhost/api/profile/" + comment2["username"]).text)
                             say("@"+comment2["username"]+ f"  has {stats['stars']} stars, {stats['diamonds']} diamonds, {stats['coins']} coins, {stats['userCoins']} user coins, {stats['demons']} demons beaten and {stats['cp']} creator points.")
                         elif comment1.lower().startswith("/oplist") and not comment2["username"]==usrname:
                             say("@"+comment2["username"]+" OPS:"+str(ops))
-                        elif "hello" in comment1.lower() and not comment2["username"]==usrname:
-                            say("@"+comment2["username"]+" Hello!")
+                        #elif "hello" in comment1.lower() and not comment2["username"]==usrname:
+                            #say("@"+comment2["username"]+" Hello!")
                         elif comment1.startswith("/") and not icnf and not comment2["username"]==usrname:
                             if comment2["username"].lower() in ops:
                                 say("@"+comment2["username"]+" you have op but this command doesn't exist /help for a list of commands")
