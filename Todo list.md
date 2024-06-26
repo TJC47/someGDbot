@@ -2,6 +2,6 @@
 
 - [ ] Add player command cooldown(1min)
 
-- [ ] Add `/unban` command
+- [x] Add `/unban` command
 
-- [ ] Add `/deop` comand
+- [x] Add `/deop` comand
