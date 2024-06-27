@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="darkreader" content="someUIDhere">
+<link rel="icon" type="image/png" href="/static/favicon.ico">
+<link rel="stylesheet" href="/static/maincss.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<title>Welcome to the admin panel {{usr}}!</title>
+<style>
+iframe {
+  width: 800px;
+  height: 210px;
+  overflow:scroll;
+  border-radius: 0px;
+  border-color: rgba(0, 0, 0, 0);
+  margin-bottom: 0px;
+}
+input {
+  width: 750px;
+  margin-top: 0px;
+  border-radius: 0px;
+  background-color: #181818;
+}
+button {
+  width: 50px;
+  margin-top: 0px;
+  border-radius: 0px;
+  background-color: #181818;
+}
+</style>
+</head>
+<body id="body">
+<h1>Welcome to the dashboard {{usr}}!</h1>
+<h2>Live Feed</h2>
+<iframe src="/livefeed"></iframe><br>
+<input type="text" placeholder="Type a Message" id="msgtext"><button id="sendmsgbutton">Send</button>
+<br><a href="/">Logout</a>
+<script> 
+$("#body").hide();
+var check;
+var usrname;
+var passwrd;
+usr = $.get("/splitusr",{ to: window.name},
+function(){
+passwrd = $.get("/splitpass",{ to: window.name},
+function(){
+check = $.get("/check",{ to: window.name},
+function(){
+if (check.responseText=="false"){
+    $("#body").hide();
+    alert("Wrong Username Or Password!");
+    window.location=("/..");
+}
+if (check.responseText=="true"){
+    $("#body").show();
+}})})})
+console.log(check)
+$("#sendmsgbutton").click(function(){
+    var str = $("#msgtext").val();
+    $.get( "/sendmsg", { to: window.name, msg: str} );
+
+});
+</script>
+</body>
+</html>

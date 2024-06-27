@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="darkreader" content="someUIDhere">
+<title>Welcome to the SomeGDBot Web Gui!</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<link rel="icon" type="image/png" href="/static/favicon.ico">
+<link rel="stylesheet" href="/static/maincss.css">
+<style>
+form {
+  border-radius: 20px;
+  background-color: rgb(43, 43, 43);
+  padding-left: 20px;
+  width: 200px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+h1 {
+	font-style: italic;
+  font-family: monospace;
+}
+</style>
+</head>
+<body>
+<h1>Welcome to the SomeGDBot Web Gui!</h1>
+<h2>Please Login</h2>
+
+<form action="/login">
+    <label for="name">Username:</label><br>
+    <input type="text" id="name" name="name" value=""><br>
+    <label for="pass">Password:</label><br>
+    <input type="password" id="pass" name="pass" value=""><br><br>
+    <input type="submit" value="Submit">
+</form>
+</body>
+<script>
+check = $.get("/check",{ to: window.name},
+function(){
+if (check.responseText=="true"){
+window.location=("/dashboard");
+}})
+</script>
+</html>
