@@ -8,10 +8,10 @@ This bot is inspired by Sevenworks' Autoworks, but does not use its code.
 The Program now has a still WIP web ui to control features.
 Unlike Autoworks though, it has an easy to use commandline interface, to execute certain commands and it uses a json configuration file to manage bans, superusers, credentials, etc...
 This makes the program way more efficient as it only has to open one file.
-Something worthy of mention is that it uses GDColons GDBrowser api. In the next section I will explain the needed configuration.
+Something worthy of mention is that it uses GDColons [GDBrowser](https://github.com/GDColon/GDBrowser) api. In the next section I will explain the needed configuration.
 
 # How to set up
-This program uses GDColons GDBrowser api.
+This program uses GDColons [GDBrowser](https://github.com/GDColon/GDBrowser) api.
 Be sure to set the port of the GDBrowser website to 81 for the program to function correctly.
 
 # Configuration
