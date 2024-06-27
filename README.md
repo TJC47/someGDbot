@@ -4,6 +4,7 @@
 This project is a Geometry Dash Chatbot. It is packed full of useful and fun commands that everybody can use.
 
 This bot is inspired by Sevenworks' Autoworks, but does not use its code.
+The Program now has a still WIP web ui to control features.
 Unlike Autoworks though, it has an easy to use commandline interface, to execute certain commands and it uses a json configuration file to manage bans, superusers, credentials, etc...
 This makes the program way more efficient as it only has to open one file.
 Something worthy of mention is that it uses GDColons GDBrowser api. In the next section I will explain the needed configuration.
