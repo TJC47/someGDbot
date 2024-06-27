@@ -1,5 +1,6 @@
 
-
+# SomeGDBot
+[![Github All Releases](https://img.shields.io/github/downloads/TJC47/someGDbot/total.svg)]()
 # What is this program?
 This project is a Geometry Dash Chatbot. It is packed full of useful and fun commands that everybody can use.
 
